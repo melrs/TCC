@@ -47,7 +47,13 @@
 }{abntex2}
 
 \ProcessOptions\relax
+\let\utfprPackageWarning\PackageWarning
+\let\utfprPackageWarningNoLine\PackageWarningNoLine
+\def\PackageWarning#1#2{}
+\def\PackageWarningNoLine#1#2{}
 \LoadClass{abntex2}
+\let\PackageWarning\utfprPackageWarning
+\let\PackageWarningNoLine\utfprPackageWarningNoLine
 
 \RequirePackage[brazilian, hyperpageref]{backref}       % Produzir índice nas referências
 \RequirePackage{makeidx}                                % Produzir índice remissivo de palavras
@@ -149,6 +155,7 @@
 % Elementos pré-textuais
 \renewcommand{\pretextual}
 {%
+    \hypersetup{pageanchor=false}
     \pagenumbering{gobble}
     \aliaspagestyle{chapter}{empty}
     \pagestyle{empty}
@@ -160,6 +167,7 @@
 \renewcommand{\textual}
 {%
     \pagenumbering{arabic} % A numeração das páginas é em algarismos arábicos, inciando em 1
+    \hypersetup{pageanchor=true}
     \pagestyle{abntheadings}
     \aliaspagestyle{chapter}{abntchapfirst}
     \nouppercaseheads
@@ -341,7 +349,7 @@
     \abntex@ifnotempty{\imprimirpreambulo}
     {%
         \SingleSpacing
-        \begin{tabular}{p{.25\textwidth}p{.13\textwidth}p{.44\textwidth}}
+        \begin{tabular}{@{}p{.25\textwidth}p{.13\textwidth}p{.44\textwidth}@{}}
             & \multicolumn{2}{p{.6\textwidth}}{\small\hyphenpenalty=10000{\imprimirpreambulo}} \\ & & \\
             \abntex@ifnotempty{\imprimirareaconcentracao}
             {%
